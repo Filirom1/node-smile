@@ -1,9 +1,11 @@
-var assert = require("chai").assert;
+var chai = require("chai");
 var buffertools = require("buffertools");
 var sinon = require('sinon');
+var sinonChai = require("sinon-chai");
 var EventEmitter = require('events').EventEmitter;
 var Parser = require("../lib/Parser");
-
+var expect = chai.expect;
+chai.use(sinonChai);
 
 describe('HandleSignature', function(){
   it('Should emit an error if starting with a wrong signature', function(){
@@ -11,7 +13,8 @@ describe('HandleSignature', function(){
     var emiter = new Parser();
     var spy = sinon.spy();
     emiter.on('error', spy);
+    //emiter.on('error', function(){ console.log(arguments); });
     emiter.parseBuffer(buffer);
-    assert.calledWith('error');
+    expect(spy).to.have.been.called;
   })
 })
